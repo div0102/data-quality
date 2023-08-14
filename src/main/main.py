@@ -10,6 +10,9 @@ st.title('Configure your DQ checks here')
 st.sidebar.markdown("# DQ availabilty 🎈")
 source = st.sidebar.selectbox("Choose your source for DQ",('Local File', 'AWS S3','GCS', 'Database', 'Snowflake', 'BigQuery'))
 if source == 'Local File':
+    
+    file_delimeter = st.sidebar.selectbox("File Delmiter",(',','|','\\t','--','*'))
+    file_header = st.sidebar.selectbox("Does file have a header",("Yes","No"))
     uploaded_file = st.sidebar.file_uploader(label="Upload File", type=None, accept_multiple_files=False, key=None, help=None, on_change=None, args=None, kwargs=None, disabled=False, label_visibility="visible")
      
     if uploaded_file is not None:
