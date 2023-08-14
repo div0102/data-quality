@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "data-quality"
+version = "0.1.0"
+description = "Unified framework to support all your data quality needs"
+authors = ["Divyaansh Bajpai <divyaansh.bajpai@wwt.com>, Kunal Sharma <kunal.sharma@wwt.com>, Geetanjali Bhatia <geetanjali.bhatia@wwt.com>"]
+readme = "README.md"
+packages = [{include = "data_quality"}]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.9.7"
+streamlit = "^1.25.0"
+pandas = "^2.0.3"
+dbt-core = "^1.6.0"
+great-expectations = "^0.17.9"
+dynaconf = "^3.2.1"
+langchain = "^0.0.263"
+sqlalchemy = "^2.0.19"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.7.0"
+mock = "^5.1.0"
+pytest = "^7.4.0"
+pylint = "^2.17.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
