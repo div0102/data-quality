@@ -3,44 +3,83 @@ from io import StringIO
 import numpy as np
 import pandas as pd
 import streamlit as st
-from source_factory.file.f_csv import (fetch_file_headers, read_file,
-                                       show_sample_file_data)
+from source_factory.file.f_csv import SourceCSV
+from ui.file import CSV, EXCEL, FileOptions
+
+# st.set_page_config(
+#     page_title="Ex-stream-ly Cool App",
+#     page_icon="🧊",
+#     layout="wide",
+#     initial_sidebar_state="expanded",
+#     menu_items={
+#         'Get Help': 'https://www.extremelycoolapp.com/help',
+#         'Report a bug': "https://www.extremelycoolapp.com/bug",
+#         'About': "# This is a header. This is an *extremely* cool app!"
+#     }
+# )
 
 st.title('Configure your DQ checks here')
-st.sidebar.markdown("# DQ availabilty 🎈")
+st.sidebar.markdown("# WUYDB source availabilty 🎈")
 source = st.sidebar.selectbox("Choose your source for DQ",('Local File', 'AWS S3','GCS', 'Database', 'Snowflake', 'BigQuery'))
 if source == 'Local File':
     
-    file_delimeter = st.sidebar.selectbox("File Delmiter",(',','|','\\t','--','*'))
-    file_header = st.sidebar.selectbox("Does file have a header",("Yes","No"))
-    uploaded_file = st.sidebar.file_uploader(label="Upload File", type=None, accept_multiple_files=False, key=None, help=None, on_change=None, args=None, kwargs=None, disabled=False, label_visibility="visible")
+    wrk_with_files = FileOptions(source)
+    #file_type, uploaded_file = wrk_with_files.file_options()
+    if wrk_with_files.file_type == "csv":
+        csv = CSV()        
+        if csv.uploaded_file is not None:           
+            print(f"file is {csv.uploaded_file}")
+            # To convert to a string based IO:
+            stringio = StringIO(csv.uploaded_file.getvalue().decode("utf-8"))
+            # st.write(stringio)
+            print(f"delimeter is {csv.file_delimeter}")
+            csv = SourceCSV(csv.uploaded_file,csv.file_header,csv.file_delimeter)
+            csv_data = csv.read_file()
+            headers = csv.fetch_file_headers(csv_data)
+            print(headers)
+            # headers= ['Id','Name','Salary']
+            for i in headers:
+                print(i)
+                st.checkbox(i)
+            st.write(headers)
+            st.write(csv.fetch_file_headers(csv_data))
+            st.write("Sample Data",csv.show_sample_file_data(csv_data))
+            #st.dataframe(data=csv.show_sample_file_data(csv_data))
+
+            # To read file as bytes:
+            # bytes_data = uploaded_file.getvalue()
+            # st.write(bytes_data)
+
+            # To convert to a string based IO:
+            # stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
+            # st.write(stringio)
+
+            # To read file as string:
+            # string_data = stringio.read()
+            # st.write(string_data)
+
+            # Can be used wherever a "file-like" object is accepted:
+            # dataframe = read_file(uploaded_file=uploaded_file)
+            
+
+            # headers = fetch_file_headers(dataframe)
+            # print(headers)
+            # headers= ['Id','Name','Salary']
+            # for i in headers:
+            #     print(i)
+            #     st.checkbox(i)
+            # st.write("Sample Data",dataframe)
+            # st.write(headers)
+            # st.write(fetch_file_headers(dataframe))
+    if wrk_with_files.file_type == "excel":
+        EXCEL()
+
+    # file_type = st.sidebar.selectbox("File type",("csv","excel"))
+    # file_delimeter = st.sidebar.selectbox("File Delmiter",(',','|','\\t','--','*'))
+    # file_header = st.sidebar.selectbox("Does file have a header",("Yes","No"))
+    # uploaded_file = st.sidebar.file_uploader(label="Upload File", type=None, accept_multiple_files=False, key=None, help=None, on_change=None, args=None, kwargs=None, disabled=False, label_visibility="visible")
      
-    if uploaded_file is not None:
-        # To read file as bytes:
-        # bytes_data = uploaded_file.getvalue()
-        # st.write(bytes_data)
-
-        # To convert to a string based IO:
-        # stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
-        # st.write(stringio)
-
-        # To read file as string:
-        # string_data = stringio.read()
-        # st.write(string_data)
-
-        # Can be used wherever a "file-like" object is accepted:
-        dataframe = read_file(uploaded_file=uploaded_file)
-        
-
-        headers = fetch_file_headers(dataframe)
-        print(headers)
-        headers= ['Id','Name','Salary']
-        for i in headers:
-            print(i)
-            st.checkbox(i)
-        st.write("Sample Data",dataframe)
-        # st.write(headers)
-        # st.write(fetch_file_headers(dataframe))
+    
 
         
 if source in ['Database','Snowflake','Bigquery']:
