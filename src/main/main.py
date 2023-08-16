@@ -1,9 +1,8 @@
 from io import StringIO
 
-import numpy as np
-import pandas as pd
 import streamlit as st
 from source_factory.file.f_csv import SourceCSV
+from ui.dqc import list_all_dqc, list_all_supported_dq_frameworks
 from ui.file import CSV, EXCEL, FileOptions
 
 # st.set_page_config(
@@ -19,6 +18,7 @@ from ui.file import CSV, EXCEL, FileOptions
 # )
 
 st.title('Configure your DQ checks here')
+st.selectbox("DQ Framework Support",list_all_supported_dq_frameworks())
 st.sidebar.markdown("# WUYDB source availabilty 🎈")
 source = st.sidebar.selectbox("Choose your source for DQ",('Local File', 'AWS S3','GCS', 'Database', 'Snowflake', 'BigQuery'))
 if source == 'Local File':
@@ -27,22 +27,18 @@ if source == 'Local File':
     #file_type, uploaded_file = wrk_with_files.file_options()
     if wrk_with_files.file_type == "csv":
         csv = CSV()        
-        if csv.uploaded_file is not None:           
-            print(f"file is {csv.uploaded_file}")
-            # To convert to a string based IO:
-            stringio = StringIO(csv.uploaded_file.getvalue().decode("utf-8"))
-            # st.write(stringio)
-            print(f"delimeter is {csv.file_delimeter}")
+        if csv.uploaded_file is not None:                       
             csv = SourceCSV(csv.uploaded_file,csv.file_header,csv.file_delimeter)
             csv_data = csv.read_file()
-            headers = csv.fetch_file_headers(csv_data)
-            print(headers)
-            # headers= ['Id','Name','Salary']
-            for i in headers:
-                print(i)
-                st.checkbox(i)
-            st.write(headers)
-            st.write(csv.fetch_file_headers(csv_data))
+            csv.add_dq_checks_for_cols(csv_data)
+            # headers = csv.fetch_file_headers(csv_data)
+            # print(headers)
+            # # headers= ['Id','Name','Salary']
+            # for i in headers:
+            #     print(i)
+            #     st.checkbox(i)
+            # st.write(headers)
+            # st.write(csv.fetch_file_headers(csv_data))
             st.write("Sample Data",csv.show_sample_file_data(csv_data))
             #st.dataframe(data=csv.show_sample_file_data(csv_data))
 

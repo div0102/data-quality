@@ -10,7 +10,7 @@ class FileOptions():
 
 class CSV():
     def __init__(self) -> None:
-        self.file_delimeter = st.sidebar.selectbox("File Delmiter",(',','|','\\t','--','*'))
+        self.file_delimeter = st.sidebar.selectbox("File Delmiter",(',','|','\\t','--','*','space'))
         self.file_header = st.sidebar.selectbox("Does file have a header",("Yes","No"))
         self.uploaded_file = st.sidebar.file_uploader(label="Upload File", type=None, accept_multiple_files=False, key=None, help=None, on_change=None, args=None, kwargs=None, disabled=False, label_visibility="visible")
         
