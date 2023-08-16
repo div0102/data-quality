@@ -1,8 +1,9 @@
 from io import StringIO
 
 import streamlit as st
+from constants import SourceSystems
 from source_factory.file.f_csv import SourceCSV
-from ui.dqc import list_all_dqc, list_all_supported_dq_frameworks
+from ui.dqc import list_all_supported_dq_frameworks
 from ui.file import CSV, EXCEL, FileOptions
 
 # st.set_page_config(
@@ -20,7 +21,7 @@ from ui.file import CSV, EXCEL, FileOptions
 st.title('Configure your DQ checks here')
 st.selectbox("DQ Framework Support",list_all_supported_dq_frameworks())
 st.sidebar.markdown("# WUYDB source availabilty 🎈")
-source = st.sidebar.selectbox("Choose your source for DQ",('Local File', 'AWS S3','GCS', 'Database', 'Snowflake', 'BigQuery'))
+source = st.sidebar.selectbox("Choose your source for DQ",(src_systems.value for src_systems in SourceSystems))
 if source == 'Local File':
     
     wrk_with_files = FileOptions(source)

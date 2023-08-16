@@ -2,7 +2,6 @@ import logging
 
 import pandas as pd
 import streamlit as st
-from httpx import head
 from ui.dqc import list_all_dqc
 
 logger = logging.getLogger(__name__)
