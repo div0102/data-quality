@@ -1,0 +1,14 @@
+data_quality:
+  check:
+    Date format check:
+    - C_NAME
+    - C_MKTSEGMENT
+    Duplicate check:
+    - C_CUSTKEY
+    - C_ACCTBAL
+    Mandatory value check:
+    - C_COMMENT
+    - C_PHONE
+    Null value check:
+    - C_ADDRESS
+  table_name: CUSTOMER

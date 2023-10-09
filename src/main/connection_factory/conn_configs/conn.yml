@@ -1,0 +1,14 @@
+snowflake:
+  connection_name:
+    - wuydb:
+        account: sssijfr-cr20065
+        username: WUYDB
+        password: Wuydb_10062923
+        warehouse: COMPUTE_WH
+    - test:
+        account: sssijfr-cr20065
+        username: WUYDB
+        password: Wuydb_10062923
+        warehouse: COMPUTE_WH
+
+bigquery:
