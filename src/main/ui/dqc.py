@@ -12,8 +12,17 @@ def list_all_supported_dq_frameworks():
     return [frameworks.value for frameworks in SupportedDQCframeworks]
 
 
-def generate_dqc_config(dqc_col_selection: dict, table_name: str):
-    dqc_d = {"data_quality": {"table_name": table_name, "check": {}}}
+def generate_dqc_config(
+    dqc_col_selection: dict, table_name: str, schema_name: str, database_name: str
+):
+    dqc_d = {
+        "data_quality": {
+            "table_name": table_name,
+            "schema_name": schema_name,
+            "database_name": database_name,
+            "check": {},
+        }
+    }
     for col, dqc in dqc_col_selection.items():
         if dqc != "select one":
             if dqc in dqc_d["data_quality"]["check"]:

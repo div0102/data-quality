@@ -1,14 +1,15 @@
 data_quality:
   check:
     Date format check:
-    - C_NAME
-    - C_MKTSEGMENT
+    - C_BIRTH_DAY
+    - C_BIRTH_YEAR
     Duplicate check:
-    - C_CUSTKEY
-    - C_ACCTBAL
+    - C_BIRTH_MONTH
+    - C_BIRTH_COUNTRY
     Mandatory value check:
-    - C_COMMENT
-    - C_PHONE
+    - C_LOGIN
     Null value check:
-    - C_ADDRESS
+    - C_PREFERRED_CUST_FLAG
+  database_name: SNOWFLAKE_SAMPLE_DATA
+  schema_name: TPCDS_SF100TCL
   table_name: CUSTOMER

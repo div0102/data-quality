@@ -49,6 +49,8 @@ class SourceSnowflake:
             generate_dqc_config(
                 dqc_col_selection=session_state.df.to_dict(orient="records")[0],
                 table_name=self.table_name,
+                schema_name=self.schema_name,
+                database_name=self.database_name,
             )
 
     def show_sample_table_data(self):
