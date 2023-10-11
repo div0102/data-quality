@@ -34,7 +34,7 @@ def generate_dqc_config(
 
     print(dqc_d)
 
-    with open("test_df_to_yaml.yaml", "w") as file:
+    with open("dq_checks.yaml", "w") as file:
         documents = yaml.dump(
             dqc_d,
             file,

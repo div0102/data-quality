@@ -1,0 +1,15 @@
+data_quality:
+  check:
+    Duplicate check:
+    - C_ACCTBAL
+    - C_MKTSEGMENT
+    - C_NAME
+    - C_PHONE
+    Mandatory value check:
+    - C_NATIONKEY
+    Null value check:
+    - C_COMMENT
+    - C_CUSTKEY
+  database_name: DEV_DB
+  schema_name: STAGING
+  table_name: CUSTOMER

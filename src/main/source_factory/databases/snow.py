@@ -13,8 +13,8 @@ class SourceSnowflake:
         self.table_name = table_name
 
     def get_table_cols(self):
-        get_col_sql = f"Select listagg(column_name,',') from information_schema.columns where TABLE_CATALOG = '{self.database_name}' and TABLE_SCHEMA = '{self.schema_name}'\
-        and TABLE_NAME = '{self.table_name}'"
+        get_col_sql = f"Select listagg(column_name,',') WITHIN GROUP (ORDER BY column_name) from information_schema.columns where TABLE_CATALOG = '{self.database_name}' and TABLE_SCHEMA = '{self.schema_name}'\
+        and TABLE_NAME = '{self.table_name}' order by ORDINAL_POSITION"
         self.snow_connection.cursor().execute(
             f"USE {self.database_name}.{self.schema_name};"
         )
